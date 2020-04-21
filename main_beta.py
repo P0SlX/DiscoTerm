@@ -1,7 +1,5 @@
 import discord
-import asyncio
 import subprocess
-from discord.ext import commands
 from command import *
 from _token import get_token
 
@@ -34,7 +32,7 @@ class Un_bot_mal_code(discord.Client):
                 elif line_number == line_max:       # if reach line max
                     return final                    # return final string
                 else:                               # if reached minimum line to read
-                    if line.startswith("Script") or line.startswith("<?xml"):  # Filter
+                    if line.startswith("Script") or line.startswith("<?xml") or line.startswith("_EXIT_CODE"):  # Filter
                         pass                        # keep reading
                     else:
                         final += line               # append line to final string
@@ -52,7 +50,7 @@ class Un_bot_mal_code(discord.Client):
             with open("script.sh", 'w') as f:
                 f.write(find_command(await self.get_command_name(command), command))
         except PermissionError:
-            await ctx.channel.send("Error : Permission Denied")
+            await ctx.channel.send("Error : Permission Denied :no_entry:")
 
     async def send_message(self, ctx, line_min):
         await self.call_script()                                # exec script.sh
@@ -60,7 +58,7 @@ class Un_bot_mal_code(discord.Client):
         if len(output) > 2:                                     # if message not empty
             await ctx.channel.send(("```" + output + "```"))    # print output in code format
         else:                                                   # if message empty
-            await ctx.channel.send("Done.")                     # Send "Done."
+            await ctx.channel.send("Done. :white_check_mark:")                     # Send "Done."
 
     async def on_message(self, ctx):
         if ctx.author.id == self.user.id:                       # return if new message is self
@@ -69,11 +67,11 @@ class Un_bot_mal_code(discord.Client):
         if ctx.content.startswith('$') and ctx.author.id in self.admin:  # Set your id here, so only you can use it
             command = ctx.content[1:]                                    # trim $ char
             if command != "":                                            # check is command empty
-                if await self.get_command_name(command) == "cpu":        # command for CPU usage
+                command_name = await self.get_command_name(command)      # store command's name into command_name
+                if command_name == "cpu":                                # command for CPU usage
                     await self.write_command(ctx, "mpstat -P ALL")       # write "mpstat -P ALL" to bash script
                     await self.send_message(ctx, 0)                      # send message
-
-                elif await self.get_command_name(command) == "man":      # if man command issued
+                elif command_name == "man":                              # if man command issued
                     try:                                                 # try the following line
                         int(command[-1])                                 # check if last letter is a number
                         nb_page = ""                                     # init page number as str
@@ -101,5 +99,4 @@ client.run(get_token())
 # Implement page system for man
 # optimize code for man
 # finish to implement non_supported command
-# fix echo ""
 # try other command that might bug the hell out of it ?
