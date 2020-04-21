@@ -100,3 +100,4 @@ client.run(get_token())
 # optimize code for man
 # finish to implement non_supported command
 # try other command that might bug the hell out of it ?
+# better implement of script to fix cd reset after end script
