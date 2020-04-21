@@ -3,3 +3,5 @@ _pycache_
 __pycache__
 venv
 .idea
+test.log
+output.txt

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
-Script started on 2020-04-21 15:49:51+02:00 [&lt;not executed on terminal&gt;]
-noice
-
-Script done on 2020-04-21 15:49:51+02:00 [COMMAND_EXIT_CODE=&quot;0&quot;]
